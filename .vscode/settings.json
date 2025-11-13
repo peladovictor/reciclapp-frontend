@@ -1,0 +1,9 @@
+{
+  "editor.formatOnSave": true,
+  "dart.lineLength": 90, // puedes bajarlo incluso a 60 si prefieres líneas más cortas
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  }
+}
+

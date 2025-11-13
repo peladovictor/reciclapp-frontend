@@ -1,0 +1,34 @@
+import 'package:flutter_application_1/src/domain/useCases/auth/AuthUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
+import 'package:flutter_application_1/src/domain/useCases/users/UsersUseCases.dart';
+import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClienteHomeBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/client/mapBokingInfo/bloc/ClientMapBookingInfoBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/bloc/ClientMapSeekerBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoEvent.dart';
+import 'package:flutter_application_1/src/presentation/page/profile/update/bloc/ProfileUpdateBloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_application_1/injection.dart';
+import 'package:flutter_application_1/src/presentation/page/auth/login/bloc/LoginBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/auth/login/bloc/LoginEvent.dart';
+import 'package:flutter_application_1/src/presentation/page/auth/register/bloc/RegisterBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/auth/register/bloc/RegisterEvent.dart';
+
+List<BlocProvider> blocProvider = [
+  BlocProvider<LoginBloc>(
+      create: (context) => LoginBloc(locator<AuthUseCases>())..add(LogiInitEvent())),
+  BlocProvider<RegisterBloc>(
+      create: (context) =>
+          RegisterBloc(locator<AuthUseCases>())..add(RegisterInitEvent())),
+  BlocProvider<ClientHomeBloc>(
+      create: (context) => ClientHomeBloc(locator<AuthUseCases>())),
+  BlocProvider<ProfileInfoBloc>(
+      create: (context) => ProfileInfoBloc(locator<AuthUseCases>())..add(GetUserInfo())),
+  BlocProvider<ProfileUpdateBloc>(
+      create: (context) =>
+          ProfileUpdateBloc(locator<UsersUseCases>(), locator<AuthUseCases>())),
+  BlocProvider<ClientMapSeekerBloc>(
+      create: (context) => ClientMapSeekerBloc(locator<GeolocatorUseCases>())),
+  BlocProvider<ClientMapBookingInfoBloc>(
+      create: (context) => ClientMapBookingInfoBloc(locator<GeolocatorUseCases>())),
+];
