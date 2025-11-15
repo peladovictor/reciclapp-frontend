@@ -10,7 +10,8 @@ import 'package:http/http.dart' as http;
 class AuthService {
   Future<Resource<AuthResponse>> login(String email, String password) async {
     try {
-      final url = Uri.http(ApiConfig.API_PROJECT, '/auth/login');
+      // 👇 ahora usamos la URL completa (http local / https nube)
+      final url = ApiConfig.uri('/auth/login');
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode({'email': email, 'password': password});
 
@@ -35,7 +36,8 @@ class AuthService {
 
   Future<Resource<AuthResponse>> register(User user) async {
     try {
-      final url = Uri.http(ApiConfig.API_PROJECT, '/auth/register');
+      // 👇 igual aquí
+      final url = ApiConfig.uri('/auth/register');
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode(user.toJson());
 

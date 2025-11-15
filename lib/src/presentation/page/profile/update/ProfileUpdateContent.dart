@@ -26,7 +26,7 @@ class ProfileUpdateContent extends StatelessWidget {
               Spacer(),
               _actionProfile(context, 'ACTUALIZAR USUARIO', Icons.check),
               SizedBox(
-                height: 35,
+                height: 85,
               )
             ],
           ),
@@ -49,7 +49,7 @@ class ProfileUpdateContent extends StatelessWidget {
       },
       child: Container(
         width: 115,
-        margin: EdgeInsets.only(top: 15, bottom: 15),
+        margin: EdgeInsets.only(top: 10, bottom: 10),
         child: AspectRatio(
           aspectRatio: 1,
           child: ClipOval(
@@ -75,7 +75,7 @@ class ProfileUpdateContent extends StatelessWidget {
 
   Widget _cardUserInfo(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 150),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 100),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.5,
       child: Card(
@@ -88,7 +88,7 @@ class ProfileUpdateContent extends StatelessWidget {
               text: 'Nombre',
               icon: Icons.person,
               backgroundColor: Colors.grey[200]!,
-              margin: EdgeInsets.only(left: 30, right: 30, top: 15),
+              margin: EdgeInsets.only(left: 30, right: 30, top: 0),
               initialValue: user?.name,
               onChanged: (text) {
                 context
@@ -138,7 +138,14 @@ class ProfileUpdateContent extends StatelessWidget {
   Widget _actionProfile(BuildContext context, String option, IconData icon) {
     return GestureDetector(
       onTap: () {
-        if (state.formKey!.currentState != null) {
+        // DEBUG: ver qué valores tiene el BLoC al presionar ACTUALIZAR
+        print('=== TAP ACTUALIZAR PERFIL ===');
+        print('STATE NAME     => ${state.name.value}');
+        print('STATE LASTNAME => ${state.lastname.value}');
+        print('STATE PHONE    => ${state.phone.value}');
+        print('USER ORIGINAL  => ${user?.name} ${user?.lastname}');
+
+        if (state.formKey?.currentState != null) {
           if (state.formKey!.currentState!.validate()) {
             context.read<ProfileUpdateBloc>().add(FormSubmit());
           }
@@ -147,17 +154,18 @@ class ProfileUpdateContent extends StatelessWidget {
         }
       },
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, top: 15),
+        margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: ListTile(
           title: Text(
             option,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           leading: Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 1, 152, 82),
-                borderRadius: BorderRadius.all(Radius.circular(50))),
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 1, 152, 82),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
             child: Icon(
               icon,
               color: Colors.white,
@@ -172,7 +180,7 @@ class ProfileUpdateContent extends StatelessWidget {
     return Container(
       alignment: Alignment.topCenter,
       padding: EdgeInsets.only(top: 70),
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(

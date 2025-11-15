@@ -18,7 +18,7 @@ class ProfileInfoContent extends StatelessWidget {
             }),
             _actionProfile('CERRAR SESION', Icons.settings_power, () {}),
             SizedBox(
-              height: 35,
+              height: 75,
             )
           ],
         ),
@@ -29,7 +29,7 @@ class ProfileInfoContent extends StatelessWidget {
 
   Widget _cardUserInfo(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 100),
+      margin: EdgeInsets.only(left: 20, right: 20, top: 90),
       width: MediaQuery.of(context).size.width,
       height: 250,
       child: Card(
@@ -84,7 +84,7 @@ class ProfileInfoContent extends StatelessWidget {
         function();
       },
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, top: 15),
+        margin: EdgeInsets.only(left: 20, right: 20, top: 10),
         child: ListTile(
           title: Text(
             option,

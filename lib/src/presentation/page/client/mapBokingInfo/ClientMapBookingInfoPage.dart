@@ -14,11 +14,26 @@ class ClientMapBookingInfoPage extends StatefulWidget {
 }
 
 class _ClientMapBookingInfoPageState extends State<ClientMapBookingInfoPage> {
+  LatLng? pickUpLatLng;
+  LatLng? destinationLatLng;
+  String? pickUpDestination;
+  String? destinationDescription;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ClientMapBookingInfoBloc>().add(ClientMapBookingInfoInitEvent());
+      context.read<ClientMapBookingInfoBloc>().add(ClientMapBookingInfoInitEvent(
+            pickUpLatLng: pickUpLatLng!,
+            destinationLatLng: destinationLatLng!,
+            pickUpDescription: pickUpDestination!,
+            destinationDescription: destinationDescription!,
+          ));
+      context.read<ClientMapBookingInfoBloc>().add(AddPolyline());
+      context.read<ClientMapBookingInfoBloc>().add(ChangeMapCameraPosition(
+            lat: pickUpLatLng!.latitude,
+            lng: pickUpLatLng!.longitude,
+          ));
     });
   }
 
@@ -26,14 +41,10 @@ class _ClientMapBookingInfoPageState extends State<ClientMapBookingInfoPage> {
   Widget build(BuildContext context) {
     Map<String, dynamic> arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    LatLng pickUpLatLng = arguments['pickUpLatLng'];
-    LatLng destinationLatLng = arguments['destinationLatLng'];
-    String pickUpDestination = arguments['pickUpDescription'];
-    String destinationDescription = arguments['destinationDescription'];
-    print('pickUpLatLng: ${pickUpLatLng.toJson()}');
-    print('destinationLatLng: ${destinationLatLng.toJson()}');
-    print('pickUpDestination: ${pickUpDestination}');
-    print('destinationDescription: ${destinationDescription}');
+    pickUpLatLng = arguments['pickUpLatLng'];
+    destinationLatLng = arguments['destinationLatLng'];
+    pickUpDestination = arguments['pickUpDescription'];
+    destinationDescription = arguments['destinationDescription'];
     return Scaffold(
       body: BlocBuilder<ClientMapBookingInfoBloc, ClientMapBookingInfoState>(
         builder: (context, state) {
