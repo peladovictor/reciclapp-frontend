@@ -18,8 +18,8 @@ class ClientMapSeekerState extends Equatable {
   ClientMapSeekerState(
       {this.position,
       this.controller,
-      this.cameraPosition = const CameraPosition(
-          target: LatLng(-33.3992012, -70.6262937), zoom: 17.0),
+      this.cameraPosition =
+          const CameraPosition(target: LatLng(-33.3992012, -70.6262937), zoom: 17.0),
       this.placemarkData,
       this.pickUpLatLng,
       this.destinationLatlng,
@@ -46,8 +46,7 @@ class ClientMapSeekerState extends Equatable {
       pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
       destinationLatlng: destinationLatlng ?? this.destinationLatlng,
       pickUpDescription: pickUpDescription ?? this.pickUpDescription,
-      destinationDescription:
-          destinationDescription ?? this.destinationDescription,
+      destinationDescription: destinationDescription ?? this.destinationDescription,
     );
   }
 

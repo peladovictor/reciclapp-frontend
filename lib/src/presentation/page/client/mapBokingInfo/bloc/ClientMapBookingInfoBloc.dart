@@ -11,8 +11,9 @@ class ClientMapBookingInfoBloc
   GeolocatorUseCases geolocatorUseCases;
 
   ClientMapBookingInfoBloc(this.geolocatorUseCases) : super(ClientMapBookingInfoState()) {
-    on<ClientMapBookingInfoInitEvent>((event, emit) {
+    on<ClientMapBookingInfoInitEvent>((event, emit) async {
       Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+
       emit(state.copyWith(
         pickUpLatLng: event.pickUpLatLng,
         destinationLatlng: event.destinationLatLng,
@@ -20,6 +21,29 @@ class ClientMapBookingInfoBloc
         destinationDescription: event.destinationDescription,
         controller: controller,
       ));
+
+      BitmapDescriptor pickUpDescriptor = await geolocatorUseCases.createMarker
+          .run('assets/img/pin_ubicacion_inicial.png');
+      BitmapDescriptor destinationDescriptor =
+          await geolocatorUseCases.createMarker.run('assets/img/location.png');
+      Marker markerPickUp = geolocatorUseCases.getMarker.run(
+          'pickup',
+          state.pickUpLatLng!.latitude,
+          state.pickUpLatLng!.longitude,
+          'Lugar de recogida',
+          'Debes hacer la entrega del reciclaje en el lugar',
+          pickUpDescriptor);
+      Marker markerDestination = geolocatorUseCases.getMarker.run(
+          'destination',
+          state.destinationLatlng!.latitude,
+          state.destinationLatlng!.longitude,
+          'Reciclaje destino',
+          'Aqui cuidamos el planeta',
+          destinationDescriptor);
+      emit(state.copyWith(markers: {
+        markerPickUp.markerId: markerPickUp,
+        markerDestination.markerId: markerDestination
+      }));
     });
 
     on<ChangeMapCameraPosition>((event, emit) async {
@@ -36,8 +60,10 @@ class ClientMapBookingInfoBloc
           polylineId: id,
           color: Colors.blueAccent,
           points: polylineCoordinates,
-          width: 6);
-      emit(state.copyWith(polylines: {id: polyline}));
+          width: 4);
+      emit(state.copyWith(
+        polylines: {id: polyline},
+      ));
     });
   }
 }

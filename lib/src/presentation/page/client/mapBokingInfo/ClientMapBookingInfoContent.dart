@@ -124,7 +124,7 @@ class ClientMapBookingInfoContent extends StatelessWidget {
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: state.cameraPosition,
-        //markers: Set<Marker>.of(state.markers.values),
+        markers: Set<Marker>.of(state.markers.values),
         polylines: Set<Polyline>.of(state.polylines.values),
         onMapCreated: (GoogleMapController controller) {
           controller.setMapStyle(

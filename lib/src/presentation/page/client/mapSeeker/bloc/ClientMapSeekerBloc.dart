@@ -20,18 +20,6 @@ class ClientMapSeekerBloc extends Bloc<ClientMapSeekerEvent, ClientMapSeekerStat
     on<FindPosition>((event, emit) async {
       Position position = await geolocatorUseCases.findPosition.run();
       add(ChangeMapCameraPosition(lat: position.latitude, lng: position.longitude));
-      /* BitmapDescriptor imageMarker =
-          await geolocatorUseCases.createMarker
-              .run(
-                  'assets/img/location_blue.png');
-      Marker marker = geolocatorUseCases.getMarker
-          .run(
-              'MyLocation',
-              position.latitude,
-              position.longitude,
-              'Mi Posicion',
-              '',
-              imageMarker);*/
       emit(state.copyWith(
         position: position,
         /* BitmapDescriptor imageMarker =

@@ -110,7 +110,7 @@ class _ClientMapSeekerPageState extends State<ClientMapSeekerPage> {
                 alignment: Alignment.bottomCenter,
                 child: DefaultButton(
                     text: 'REVISAR RECOLECCIÓN',
-                    margin: EdgeInsets.only(left: 50, right: 50, bottom: 50),
+                    margin: EdgeInsets.only(left: 50, right: 50, bottom: 80),
                     onPressed: () {
                       Navigator.pushNamed(context, 'client/map/booking', arguments: {
                         'pickUpLatLng': state.pickUpLatLng,
