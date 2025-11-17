@@ -4,7 +4,9 @@ import 'package:flutter_application_1/injection.dart';
 import 'package:flutter_application_1/src/presentation/page/auth/register/RegisterPage.dart';
 import 'package:flutter_application_1/src/presentation/page/client/home/ClientHomePage.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapBokingInfo/ClientMapBookingInfoPage.dart';
+import 'package:flutter_application_1/src/presentation/page/driver/home/DriverHomePage.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/update/ProfileUpdatePage.dart';
+import 'package:flutter_application_1/src/presentation/page/roles/RolesPage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/src/presentation/page/auth/login/LoginPage.dart';
 
@@ -34,7 +36,9 @@ class MyApp extends StatelessWidget {
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'register': (BuildContext context) => RegisterPage(),
+          'roles': (BuildContext context) => RolesPage(),
           'client/home': (BuildContext context) => ClientHomePage(),
+          'driver/home': (BuildContext context) => DriverHomepage(),
           'client/map/booking': (BuildContext context) => ClientMapBookingInfoPage(),
           'profile/update': (BuildContext context) => ProfileUpdatePage(),
         },

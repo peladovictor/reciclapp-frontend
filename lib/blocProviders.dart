@@ -7,6 +7,8 @@ import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/blo
 import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/update/bloc/ProfileUpdateBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/roles/bloc/RolesBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/roles/bloc/RolesEvent.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_application_1/injection.dart';
 import 'package:flutter_application_1/src/presentation/page/auth/login/bloc/LoginBloc.dart';
@@ -22,6 +24,8 @@ List<BlocProvider> blocProvider = [
           RegisterBloc(locator<AuthUseCases>())..add(RegisterInitEvent())),
   BlocProvider<ClientHomeBloc>(
       create: (context) => ClientHomeBloc(locator<AuthUseCases>())),
+  BlocProvider<RolesBloc>(
+      create: (context) => RolesBloc(locator<AuthUseCases>())..add(GetRolesList())),
   BlocProvider<ProfileInfoBloc>(
       create: (context) => ProfileInfoBloc(locator<AuthUseCases>())..add(GetUserInfo())),
   BlocProvider<ProfileUpdateBloc>(

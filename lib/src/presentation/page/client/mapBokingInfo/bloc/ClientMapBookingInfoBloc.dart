@@ -1,7 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapBokingInfo/bloc/ClientMapBookingInfoEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapBokingInfo/bloc/ClientMapBookingInfoState.dart';
@@ -23,9 +27,9 @@ class ClientMapBookingInfoBloc
       ));
 
       BitmapDescriptor pickUpDescriptor = await geolocatorUseCases.createMarker
-          .run('assets/img/pin_ubicacion_inicial.png');
+          .run('assets/img/pin_ubicacion_inicial.png', width: 80);
       BitmapDescriptor destinationDescriptor =
-          await geolocatorUseCases.createMarker.run('assets/img/location.png');
+          await geolocatorUseCases.createMarker.run('assets/img/location.png', width: 80);
       Marker markerPickUp = geolocatorUseCases.getMarker.run(
           'pickup',
           state.pickUpLatLng!.latitude,

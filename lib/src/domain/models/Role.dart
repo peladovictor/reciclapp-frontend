@@ -21,12 +21,8 @@ class Role {
       name: (json['name'] ?? '').toString(),
       image: (json['image'] ?? '').toString(),
       route: (json['route'] ?? '').toString(),
-      createAt: json['create_at'] != null
-          ? DateTime.tryParse(json['create_at'])
-          : null,
-      updateAt: json['update_at'] != null
-          ? DateTime.tryParse(json['update_at'])
-          : null,
+      createAt: json['create_at'] != null ? DateTime.tryParse(json['create_at']) : null,
+      updateAt: json['update_at'] != null ? DateTime.tryParse(json['update_at']) : null,
     );
   }
 
