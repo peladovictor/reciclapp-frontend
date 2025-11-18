@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           'register': (BuildContext context) => RegisterPage(),
           'roles': (BuildContext context) => RolesPage(),
           'client/home': (BuildContext context) => ClientHomePage(),
-          'driver/home': (BuildContext context) => DriverHomepage(),
+          'driver/home': (BuildContext context) => DriverHomePage(),
           'client/map/booking': (BuildContext context) => ClientMapBookingInfoPage(),
           'profile/update': (BuildContext context) => ProfileUpdatePage(),
         },

@@ -1,9 +1,10 @@
 import 'package:flutter_application_1/src/domain/useCases/auth/AuthUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
 import 'package:flutter_application_1/src/domain/useCases/users/UsersUseCases.dart';
-import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClienteHomeBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClientHomeBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapBokingInfo/bloc/ClientMapBookingInfoBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/bloc/ClientMapSeekerBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/driver/home/bloc/DriverHomeBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/update/bloc/ProfileUpdateBloc.dart';
@@ -24,6 +25,8 @@ List<BlocProvider> blocProvider = [
           RegisterBloc(locator<AuthUseCases>())..add(RegisterInitEvent())),
   BlocProvider<ClientHomeBloc>(
       create: (context) => ClientHomeBloc(locator<AuthUseCases>())),
+  BlocProvider<DriverHomeBloc>(
+      create: (context) => DriverHomeBloc(locator<AuthUseCases>())),
   BlocProvider<RolesBloc>(
       create: (context) => RolesBloc(locator<AuthUseCases>())..add(GetRolesList())),
   BlocProvider<ProfileInfoBloc>(

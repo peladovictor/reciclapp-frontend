@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClientHomeBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClientHomeEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClientHomeState.dart';
-import 'package:flutter_application_1/src/presentation/page/client/home/bloc/ClienteHomeBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/ClientMapSeekerPage.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/ProfileInfoPage.dart';
+import 'package:flutter_application_1/src/presentation/page/roles/RolesPage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientHomePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
   List<Widget> pageList = <Widget>[
     ClientMapSeekerPage(),
     ProfileInfoPage(),
+    RolesPage(),
   ];
 
   @override
@@ -55,9 +57,7 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   title: Text('Mapa de busqueda'),
                   selected: state.pageIndex == 0,
                   onTap: () {
-                    context
-                        .read<ClientHomeBloc>()
-                        .add(ChangeDrawerPage(pageIndex: 0));
+                    context.read<ClientHomeBloc>().add(ChangeDrawerPage(pageIndex: 0));
                     Navigator.pop(context);
                   },
                 ),
@@ -65,9 +65,15 @@ class _ClientHomePageState extends State<ClientHomePage> {
                   title: Text('Perfil del Usuario'),
                   selected: state.pageIndex == 1,
                   onTap: () {
-                    context
-                        .read<ClientHomeBloc>()
-                        .add(ChangeDrawerPage(pageIndex: 1));
+                    context.read<ClientHomeBloc>().add(ChangeDrawerPage(pageIndex: 1));
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: Text('Roles de Usuario'),
+                  selected: state.pageIndex == 2,
+                  onTap: () {
+                    context.read<ClientHomeBloc>().add(ChangeDrawerPage(pageIndex: 2));
                     Navigator.pop(context);
                   },
                 ),
