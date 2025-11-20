@@ -49,5 +49,12 @@
 	<string>Esta aplicacion requiere acceso a la galeria de fotos</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Esta aplicacion requiere acceso a la camara</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Esta aplicación necesita acceder a tu ubicación para mostrar el mapa y calcular rutas hacia los puntos de reciclaje.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Esta aplicación utiliza tu ubicación para facilitar la recolección de reciclaje cerca de tu domicilio.</string>
+
+	
 </dict>
 </plist>

@@ -11,8 +11,7 @@ class DefaultTextFieldOutlined extends StatelessWidget {
       {required this.text,
       required this.icon,
       required this.onChanged,
-      this.margin =
-          const EdgeInsets.only(top: 50, left: 20, right: 20),
+      this.margin = const EdgeInsets.only(top: 50, left: 20, right: 20),
       this.validator});
 
   @override
@@ -40,13 +39,11 @@ class DefaultTextFieldOutlined extends StatelessWidget {
 
             // border: InputBorder.none,
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromARGB(255, 35, 161, 183),
-                    width: 2)),
+                borderSide:
+                    BorderSide(color: Color.fromARGB(255, 255, 247, 19), width: 2)),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Color.fromARGB(255, 34, 101, 202),
-                    width: 2)),
+                borderSide:
+                    BorderSide(color: Color.fromARGB(255, 34, 101, 202), width: 2)),
             prefixIcon: Container(
               margin: EdgeInsets.only(top: 10),
               child: Wrap(

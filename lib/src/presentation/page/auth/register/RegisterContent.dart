@@ -31,16 +31,13 @@ class RegisterContent extends StatelessWidget {
                   Color.fromARGB(255, 34, 156, 249),
                 ])),
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // HORIZONTAL
+              crossAxisAlignment: CrossAxisAlignment.start, // HORIZONTAL
               mainAxisAlignment: MainAxisAlignment.center, // VERTICAL
               children: [
                 _textLoginRotated(context),
                 SizedBox(height: 100),
                 _textRegisterRotated(),
-                SizedBox(
-                    height:
-                        MediaQuery.of(context).size.height * 0.25),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.25),
               ],
             ),
           ),
@@ -48,13 +45,12 @@ class RegisterContent extends StatelessWidget {
             margin: EdgeInsets.only(left: 60, bottom: 35),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    bottomLeft: Radius.circular(35)),
+                    topLeft: Radius.circular(35), bottomLeft: Radius.circular(35)),
                 gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: const [
-                      Color.fromARGB(255, 14, 29, 106),
+                      Color.fromARGB(255, 113, 255, 255),
                       Color.fromARGB(255, 30, 112, 227),
                     ])),
             child: Stack(
@@ -67,12 +63,11 @@ class RegisterContent extends StatelessWidget {
                       DefaultTextFieldOutlined(
                         text: 'Nombre',
                         icon: Icons.person_outline,
-                        margin: EdgeInsets.only(
-                            left: 50, right: 50, top: 50),
+                        margin: EdgeInsets.only(left: 50, right: 50, top: 50),
                         onChanged: (text) {
-                          context.read<RegisterBloc>().add(
-                              NameChanged(
-                                  name: BlocFormItem(value: text)));
+                          context
+                              .read<RegisterBloc>()
+                              .add(NameChanged(name: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.name.error;
@@ -81,13 +76,11 @@ class RegisterContent extends StatelessWidget {
                       DefaultTextFieldOutlined(
                         text: 'Apellido',
                         icon: Icons.person_2_outlined,
-                        margin: EdgeInsets.only(
-                            left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
                         onChanged: (text) {
-                          context.read<RegisterBloc>().add(
-                              LastnameChanged(
-                                  lastname:
-                                      BlocFormItem(value: text)));
+                          context
+                              .read<RegisterBloc>()
+                              .add(LastnameChanged(lastname: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.lastname.error;
@@ -96,26 +89,24 @@ class RegisterContent extends StatelessWidget {
                       DefaultTextFieldOutlined(
                         text: 'Email',
                         icon: Icons.email_outlined,
-                        margin: EdgeInsets.only(
-                            left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
                         onChanged: (text) {
-                          context.read<RegisterBloc>().add(
-                              EmailChanged(
-                                  email: BlocFormItem(value: text)));
+                          context
+                              .read<RegisterBloc>()
+                              .add(EmailChanged(email: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.email.error;
                         },
                       ),
                       DefaultTextFieldOutlined(
-                        text: 'Telefono',
+                        text: 'Fono 912345678',
                         icon: Icons.phone_outlined,
-                        margin: EdgeInsets.only(
-                            left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
                         onChanged: (text) {
-                          context.read<RegisterBloc>().add(
-                              PhoneChanged(
-                                  phone: BlocFormItem(value: text)));
+                          context
+                              .read<RegisterBloc>()
+                              .add(PhoneChanged(phone: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.phone.error;
@@ -124,13 +115,11 @@ class RegisterContent extends StatelessWidget {
                       DefaultTextFieldOutlined(
                         text: 'Password',
                         icon: Icons.lock_outlined,
-                        margin: EdgeInsets.only(
-                            left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
                         onChanged: (text) {
-                          context.read<RegisterBloc>().add(
-                              PasswordChanged(
-                                  password:
-                                      BlocFormItem(value: text)));
+                          context
+                              .read<RegisterBloc>()
+                              .add(PasswordChanged(password: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.password.error;
@@ -139,13 +128,10 @@ class RegisterContent extends StatelessWidget {
                       DefaultTextFieldOutlined(
                         text: 'Confirmar Password',
                         icon: Icons.lock_outlined,
-                        margin: EdgeInsets.only(
-                            left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
                         onChanged: (text) {
-                          context.read<RegisterBloc>().add(
-                              ConfirmPasswordChanged(
-                                  confirmPassword:
-                                      BlocFormItem(value: text)));
+                          context.read<RegisterBloc>().add(ConfirmPasswordChanged(
+                              confirmPassword: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.confirmPassword.error;
@@ -153,19 +139,13 @@ class RegisterContent extends StatelessWidget {
                       ),
                       DefaultButton(
                         onPressed: () {
-                          if (state.formKey!.currentState!
-                              .validate()) {
-                            context
-                                .read<RegisterBloc>()
-                                .add(FormSubmit());
-                            context
-                                .read<RegisterBloc>()
-                                .add(FormReset());
+                          if (state.formKey!.currentState!.validate()) {
+                            context.read<RegisterBloc>().add(FormSubmit());
+                            context.read<RegisterBloc>().add(FormReset());
                           }
                         },
                         text: 'Crear usuario',
-                        margin: EdgeInsets.only(
-                            top: 30, left: 60, right: 60),
+                        margin: EdgeInsets.only(top: 30, left: 60, right: 60),
                       ),
                       SizedBox(height: 25),
                       _separatorOr(),
@@ -188,9 +168,9 @@ class RegisterContent extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 50),
       child: Image.asset(
         'assets/img/destination.png',
-        width: MediaQuery.of(context).size.width * 0.6,
+        width: MediaQuery.of(context).size.width * 0.4,
         height: MediaQuery.of(context).size.height * 0.4,
-        opacity: AlwaysStoppedAnimation(0.3),
+        opacity: AlwaysStoppedAnimation(0.2),
       ),
     );
   }
@@ -210,10 +190,8 @@ class RegisterContent extends StatelessWidget {
           },
           child: Text(
             'Inicia sesion',
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16),
+            style:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
           ),
         ),
       ],
@@ -261,10 +239,7 @@ class RegisterContent extends StatelessWidget {
       quarterTurns: 1,
       child: Text(
         'Registro',
-        style: TextStyle(
-            fontSize: 27,
-            color: Colors.white,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 27, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
