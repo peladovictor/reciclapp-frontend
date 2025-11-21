@@ -5,6 +5,7 @@ import 'package:flutter_application_1/src/presentation/page/client/home/bloc/Cli
 import 'package:flutter_application_1/src/presentation/page/client/mapBokingInfo/bloc/ClientMapBookingInfoBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/bloc/ClientMapSeekerBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/driver/home/bloc/DriverHomeBloc.dart';
+import 'package:flutter_application_1/src/presentation/page/driver/mapLocation/bloc/DriverMapLocationBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/bloc/ProfileInfoEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/update/bloc/ProfileUpdateBloc.dart';
@@ -38,4 +39,6 @@ List<BlocProvider> blocProvider = [
       create: (context) => ClientMapSeekerBloc(locator<GeolocatorUseCases>())),
   BlocProvider<ClientMapBookingInfoBloc>(
       create: (context) => ClientMapBookingInfoBloc(locator<GeolocatorUseCases>())),
+  BlocProvider<DriverMapLocationBloc>(
+      create: (context) => DriverMapLocationBloc(locator<GeolocatorUseCases>())),
 ];

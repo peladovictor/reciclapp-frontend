@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/ClientMapSeekerPage.dart';
 import 'package:flutter_application_1/src/presentation/page/driver/home/bloc/DriverHomeBloc.dart';
 import 'package:flutter_application_1/src/presentation/page/driver/home/bloc/DriverHomeState.dart';
 import 'package:flutter_application_1/src/presentation/page/driver/home/bloc/DriverHomeEvent.dart';
+import 'package:flutter_application_1/src/presentation/page/driver/mapLocation/DriverMapLocationPage.dart';
 import 'package:flutter_application_1/src/presentation/page/profile/info/ProfileInfoPage.dart';
 import 'package:flutter_application_1/src/presentation/page/roles/RolesPage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,7 @@ class DriverHomePage extends StatefulWidget {
 
 class _DriverHomePageState extends State<DriverHomePage> {
   List<Widget> pageList = <Widget>[
-    ClientMapSeekerPage(),
+    DriverMapLocationPage(),
     ProfileInfoPage(),
     RolesPage(),
   ];
@@ -54,7 +54,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
                       style: TextStyle(color: Colors.white),
                     )),
                 ListTile(
-                  title: Text('Mapa de viaje'),
+                  title: Text('Mapa de localizacion'),
                   selected: state.pageIndex == 0,
                   onTap: () {
                     context.read<DriverHomeBloc>().add(ChangeDrawerPage(pageIndex: 0));
