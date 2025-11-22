@@ -9,4 +9,5 @@ abstract class GeolocatorRespository {
       BitmapDescriptor imageMarker);
   Future<PlacemarkData?> getPlacemarkData(CameraPosition cameraposition);
   Future<List<LatLng>> getPolyline(LatLng pickUpLatLng, LatLng destinationLatLng);
+  Stream<Position> getPositionStream();
 }

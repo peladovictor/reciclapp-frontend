@@ -8,10 +8,6 @@ class DriverMapLocationState extends Equatable {
   final Position? position;
   final CameraPosition cameraPosition;
   final Map<MarkerId, Marker> markers;
-  final LatLng? pickUpLatLng;
-  final LatLng? destinationLatlng;
-  final String pickUpDescription;
-  final String destinationDescription;
 
   DriverMapLocationState({
     Position? position,
@@ -19,10 +15,6 @@ class DriverMapLocationState extends Equatable {
     CameraPosition cameraPosition =
         const CameraPosition(target: LatLng(-33.3992012, -70.6262937), zoom: 17.0),
     Map<MarkerId, Marker> markers = const <MarkerId, Marker>{},
-    this.pickUpLatLng,
-    this.destinationLatlng,
-    this.pickUpDescription = '',
-    this.destinationDescription = '',
   })  : position = position,
         controller = controller ?? Completer<GoogleMapController>(), // 👈 SIEMPRE HAY UNO
         cameraPosition = cameraPosition,
@@ -40,25 +32,17 @@ class DriverMapLocationState extends Equatable {
   }) {
     return DriverMapLocationState(
       position: position ?? this.position,
+      markers: markers ?? this.markers,
       controller: controller ?? this.controller,
       cameraPosition: cameraPosition ?? this.cameraPosition,
-      markers: markers ?? this.markers,
-      pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
-      destinationLatlng: destinationLatlng ?? this.destinationLatlng,
-      pickUpDescription: pickUpDescription ?? this.pickUpDescription,
-      destinationDescription: destinationDescription ?? this.destinationDescription,
     );
   }
 
   @override
   List<Object?> get props => [
         position,
+        markers,
         controller,
         cameraPosition,
-        markers,
-        pickUpLatLng,
-        destinationLatlng,
-        pickUpDescription,
-        destinationDescription,
       ];
 }

@@ -15,14 +15,26 @@ class DriverMapLocationPage extends StatefulWidget {
 }
 
 class _DriverMapLocationPageState extends State<DriverMapLocationPage> {
+  late final DriverMapLocationBloc _bloc; // 👈 referencia local
+
   @override
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DriverMapLocationBloc>().add(DriverMapLocationInitEvent());
-      context.read<DriverMapLocationBloc>().add(FindPosition());
+    // guardamos el bloc una sola vez
+    _bloc = context.read<DriverMapLocationBloc>();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _bloc.add(DriverMapLocationInitEvent());
+      _bloc.add(FindPosition());
     });
+  }
+
+  @override
+  void dispose() {
+    // aquí ya no usamos context, usamos la referencia
+    _bloc.add(StopLocation());
+    super.dispose();
   }
 
   @override
@@ -35,32 +47,31 @@ class _DriverMapLocationPageState extends State<DriverMapLocationPage> {
             children: [
               GoogleMap(
                 mapType: MapType.normal,
-                myLocationEnabled: true, // ← punto azul
-                myLocationButtonEnabled: false, // botón de centrar (opcional)
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
                 initialCameraPosition: state.cameraPosition,
                 markers: Set<Marker>.of(state.markers.values),
-                onCameraMove: (position) {
-                  context
-                      .read<DriverMapLocationBloc>()
-                      .add(OnCameraMove(cameraPosition: position));
-                },
                 onMapCreated: (GoogleMapController controller) {
                   controller.setMapStyle(
                     '[ { "featureType": "all", "elementType": "labels.text.fill", "stylers": [ { "color": "#7c93a3" } ] } ]',
                   );
-                  if (!state.controller!.isCompleted) {
-                    state.controller!.complete(controller);
+                  // controller ya no es nulable en tu state
+                  if (!state.controller.isCompleted) {
+                    state.controller.complete(controller);
                   }
                 },
               ),
-              // BOTÓN REVISAR VIAJE
+              // BOTÓN DETENER LOCALIZACION
               Container(
                 alignment: Alignment.bottomCenter,
                 child: DefaultButton(
-                    text: 'ACTIVAR LOCALIZACION',
-                    margin: EdgeInsets.only(left: 50, right: 50, bottom: 90),
-                    onPressed: () {}),
-              )
+                  text: 'DETENER LOCALIZACION',
+                  margin: const EdgeInsets.only(left: 50, right: 50, bottom: 90),
+                  onPressed: () {
+                    _bloc.add(StopLocation());
+                  },
+                ),
+              ),
             ],
           );
         },

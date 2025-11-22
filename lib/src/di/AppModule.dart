@@ -19,6 +19,7 @@ import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorU
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetMarkerUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetPlacemarkDataUsesCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetPolylineUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/geolocator/GetPositionStreamUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/findPositionUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/users/UpdateUserUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/users/UsersUseCases.dart';
@@ -73,5 +74,6 @@ abstract class AppModule {
       createMarker: CreateMarkerUseCase(geolocatorRespository),
       getMarker: GetMarkerUseCase(geolocatorRespository),
       getPlacemarkdata: GetPlacemarkDataUsesCase(geolocatorRespository),
-      getPolyline: GetPolylineUseCase(geolocatorRespository));
+      getPolyline: GetPolylineUseCase(geolocatorRespository),
+      getPositionStream: GetPositionStreamUseCase(geolocatorRespository));
 }

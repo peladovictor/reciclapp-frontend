@@ -108,4 +108,11 @@ class GeolocatorRepositoryImpl implements GeolocatorRespository {
     }
     return coords;
   }
+
+  @override
+  Stream<Position> getPositionStream() {
+    LocationSettings locationSettings =
+        LocationSettings(accuracy: LocationAccuracy.best, distanceFilter: 1);
+    return Geolocator.getPositionStream(locationSettings: locationSettings);
+  }
 }

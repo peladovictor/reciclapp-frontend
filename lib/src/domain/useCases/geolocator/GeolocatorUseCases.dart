@@ -2,6 +2,7 @@ import 'package:flutter_application_1/src/domain/useCases/geolocator/CreateMarke
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetMarkerUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetPlacemarkDataUsesCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetPolylineUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/geolocator/GetPositionStreamUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/findPositionUseCase.dart';
 
 class GeolocatorUseCases {
@@ -11,6 +12,7 @@ class GeolocatorUseCases {
   GetMarkerUseCase getMarker;
   GetPlacemarkDataUsesCase getPlacemarkdata;
   GetPolylineUseCase getPolyline;
+  GetPositionStreamUseCase getPositionStream;
 
   GeolocatorUseCases({
     required this.findPosition,
@@ -18,5 +20,6 @@ class GeolocatorUseCases {
     required this.getMarker,
     required this.getPlacemarkdata,
     required this.getPolyline,
+    required this.getPositionStream,
   });
 }
