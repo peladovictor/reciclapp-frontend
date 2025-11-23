@@ -36,3 +36,5 @@ class ConnectSocketIO extends DriverMapLocationEvent {}
 class DisconnectSocketIO extends DriverMapLocationEvent {}
 
 class EmitDriverPositionSocketIO extends DriverMapLocationEvent {}
+
+class EmiDriverPositionSocketIO extends DriverMapLocationEvent {}

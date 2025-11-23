@@ -42,5 +42,8 @@ List<BlocProvider> blocProvider = [
       create: (context) => ClientMapBookingInfoBloc(locator<GeolocatorUseCases>())),
   BlocProvider<DriverMapLocationBloc>(
       create: (context) => DriverMapLocationBloc(
-          locator<GeolocatorUseCases>(), locator<SocketUseCases>())),
+            locator<GeolocatorUseCases>(),
+            locator<SocketUseCases>(),
+            locator<AuthUseCases>(),
+          )),
 ];

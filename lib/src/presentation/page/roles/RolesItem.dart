@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/domain/models/Role.dart';
 
 class RolesItem extends StatelessWidget {
-  Role role;
+  final Role role;
 
   RolesItem(this.role);
 
