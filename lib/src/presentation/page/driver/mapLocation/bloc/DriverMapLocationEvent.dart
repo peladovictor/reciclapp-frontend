@@ -30,3 +30,9 @@ class AddMyPositionMarker extends DriverMapLocationEvent {
   final double lng;
   AddMyPositionMarker({required this.lat, required this.lng});
 }
+
+class ConnectSocketIO extends DriverMapLocationEvent {}
+
+class DisconnectSocketIO extends DriverMapLocationEvent {}
+
+class EmitDriverPositionSocketIO extends DriverMapLocationEvent {}

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
+import 'package:flutter_application_1/src/domain/useCases/socket/SocketUseCases.dart';
 import 'package:flutter_application_1/src/presentation/page/driver/mapLocation/bloc/DriverMapLocationEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/driver/mapLocation/bloc/DriverMapLocationState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +8,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocationState> {
+  SocketUseCases socketUseCases;
   GeolocatorUseCases geolocatorUseCases;
   StreamSubscription? positionSubscription;
 
-  DriverMapLocationBloc(this.geolocatorUseCases) : super(DriverMapLocationState()) {
+  DriverMapLocationBloc(this.geolocatorUseCases, this.socketUseCases)
+      : super(DriverMapLocationState()) {
     on<DriverMapLocationInitEvent>((event, emit) {
       Completer<GoogleMapController> controller = Completer<GoogleMapController>();
       emit(state.copyWith(controller: controller));
@@ -60,6 +63,14 @@ class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocati
 
     on<StopLocation>((event, emit) {
       positionSubscription?.cancel();
+    });
+
+    on<ConnectSocketIO>((event, emit) {
+      socketUseCases.connect.run();
+    });
+
+    on<DisconnectSocketIO>((event, emit) {
+      socketUseCases.disconnect.run();
     });
   }
 }
