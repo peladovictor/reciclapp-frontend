@@ -29,18 +29,19 @@ class OnAutoCompletedPickUpSelected extends ClientMapSeekerEvent {
   double lng;
   String pickUpDescription;
   OnAutoCompletedPickUpSelected(
-      {required this.lat,
-      required this.lng,
-      required this.pickUpDescription});
+      {required this.lat, required this.lng, required this.pickUpDescription});
 }
 
-class OnAutoCompletedDestinationSelected
-    extends ClientMapSeekerEvent {
+class OnAutoCompletedDestinationSelected extends ClientMapSeekerEvent {
   double lat;
   double lng;
   String destinationDescription;
   OnAutoCompletedDestinationSelected(
-      {required this.lat,
-      required this.lng,
-      required this.destinationDescription});
+      {required this.lat, required this.lng, required this.destinationDescription});
 }
+
+class ConnectSocketIO extends ClientMapSeekerEvent {}
+
+class DisconnectSocketIO extends ClientMapSeekerEvent {}
+
+class ListenDriversPositionSocketIO extends ClientMapSeekerEvent {}

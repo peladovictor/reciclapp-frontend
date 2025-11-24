@@ -1,17 +1,20 @@
 import 'dart:async';
-
 import 'package:flutter_application_1/src/domain/models/PlacemarkData.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
+import 'package:flutter_application_1/src/domain/useCases/socket/SocketUseCases.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/bloc/ClientMapSeekerEvent.dart';
 import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/bloc/ClientMapSeekerState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 class ClientMapSeekerBloc extends Bloc<ClientMapSeekerEvent, ClientMapSeekerState> {
   GeolocatorUseCases geolocatorUseCases;
+  SocketUseCases socketUseCases;
 
-  ClientMapSeekerBloc(this.geolocatorUseCases) : super(ClientMapSeekerState()) {
+  ClientMapSeekerBloc(this.geolocatorUseCases, this.socketUseCases)
+      : super(ClientMapSeekerState()) {
     on<ClientMapSeekerInitEvent>((event, emit) {
       Completer<GoogleMapController> controller = Completer<GoogleMapController>();
       emit(state.copyWith(controller: controller));
@@ -55,6 +58,26 @@ class ClientMapSeekerBloc extends Bloc<ClientMapSeekerEvent, ClientMapSeekerStat
       emit(state.copyWith(
           destinationLatlng: LatLng(event.lat, event.lng),
           destinationDescription: event.destinationDescription));
+    });
+
+    on<ConnectSocketIO>((event, emit) {
+      Socket socket = socketUseCases.connect.run();
+      emit(state.copyWith(socket: socket));
+      add(ListenDriversPositionSocketIO());
+    });
+
+    on<DisconnectSocketIO>((event, emit) {
+      Socket socket = socketUseCases.disconnect.run();
+      emit(state.copyWith(socket: socket));
+    });
+
+    on<ListenDriversPositionSocketIO>((event, emit) {
+      state.socket?.on('new_driver_position', (data) {
+        print('DATOS DE SOCKET IO');
+        print('Id: ${data['id']}');
+        print('Lat: ${data['lat']}');
+        print('Lng: ${data['lng']}');
+      });
     });
   }
 }

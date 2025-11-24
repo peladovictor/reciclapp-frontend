@@ -37,7 +37,8 @@ List<BlocProvider> blocProvider = [
       create: (context) =>
           ProfileUpdateBloc(locator<UsersUseCases>(), locator<AuthUseCases>())),
   BlocProvider<ClientMapSeekerBloc>(
-      create: (context) => ClientMapSeekerBloc(locator<GeolocatorUseCases>())),
+      create: (context) =>
+          ClientMapSeekerBloc(locator<GeolocatorUseCases>(), locator<SocketUseCases>())),
   BlocProvider<ClientMapBookingInfoBloc>(
       create: (context) => ClientMapBookingInfoBloc(locator<GeolocatorUseCases>())),
   BlocProvider<DriverMapLocationBloc>(
