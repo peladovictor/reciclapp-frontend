@@ -39,28 +39,30 @@ class ClientMapSeekerState extends Equatable {
         destinationDescription = destinationDescription,
         markers = markers;
 
-  ClientMapSeekerState copyWith(
-      {Position? position,
-      Completer<GoogleMapController>? controller,
-      CameraPosition? cameraPosition,
-      PlacemarkData? placemarkData,
-      LatLng? pickUpLatLng,
-      LatLng? destinationLatlng,
-      String? pickUpDescription,
-      String? destinationDescription,
-      Map<MarkerId, Marker>? markers,
-      Socket? socket}) {
+  ClientMapSeekerState copyWith({
+    Position? position,
+    Completer<GoogleMapController>? controller,
+    CameraPosition? cameraPosition,
+    PlacemarkData? placemarkData,
+    LatLng? pickUpLatLng,
+    LatLng? destinationLatlng,
+    String? pickUpDescription,
+    String? destinationDescription,
+    Map<MarkerId, Marker>? markers,
+    Socket? socket,
+  }) {
     return ClientMapSeekerState(
-        position: position ?? this.position,
-        controller: controller ?? this.controller,
-        cameraPosition: cameraPosition ?? this.cameraPosition,
-        placemarkData: placemarkData ?? this.placemarkData,
-        pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
-        destinationLatlng: destinationLatlng ?? this.destinationLatlng,
-        pickUpDescription: pickUpDescription ?? this.pickUpDescription,
-        destinationDescription: destinationDescription ?? this.destinationDescription,
-        markers: markers ?? this.markers,
-        socket: this.socket);
+      position: position ?? this.position,
+      controller: controller ?? this.controller,
+      cameraPosition: cameraPosition ?? this.cameraPosition,
+      placemarkData: placemarkData ?? this.placemarkData,
+      pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
+      destinationLatlng: destinationLatlng ?? this.destinationLatlng,
+      pickUpDescription: pickUpDescription ?? this.pickUpDescription,
+      destinationDescription: destinationDescription ?? this.destinationDescription,
+      markers: markers ?? this.markers,
+      socket: socket ?? this.socket, // ✅ ahora sí guarda el nuevo socket
+    );
   }
 
   @override

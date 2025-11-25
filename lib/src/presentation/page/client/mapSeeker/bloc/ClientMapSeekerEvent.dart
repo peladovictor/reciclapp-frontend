@@ -18,7 +18,6 @@ class ChangeMapCameraPosition extends ClientMapSeekerEvent {
 
 class OnCameraMove extends ClientMapSeekerEvent {
   CameraPosition cameraPosition;
-
   OnCameraMove({required this.cameraPosition});
 }
 
@@ -45,3 +44,25 @@ class ConnectSocketIO extends ClientMapSeekerEvent {}
 class DisconnectSocketIO extends ClientMapSeekerEvent {}
 
 class ListenDriversPositionSocketIO extends ClientMapSeekerEvent {}
+
+class ListenDriversDisconnectedSocketIO extends ClientMapSeekerEvent {}
+
+class RemoveDriverPositionMarker extends ClientMapSeekerEvent {
+  final String idSocket;
+
+  RemoveDriverPositionMarker({required this.idSocket});
+}
+
+class AddDriverPositionMarker extends ClientMapSeekerEvent {
+  final String idSocket;
+  final int id;
+  final double lat;
+  final double lng;
+
+  AddDriverPositionMarker({
+    required this.idSocket,
+    required this.id,
+    required this.lat,
+    required this.lng,
+  });
+}

@@ -147,7 +147,7 @@ class RegisterContent extends StatelessWidget {
                         text: 'Crear usuario',
                         margin: EdgeInsets.only(top: 30, left: 60, right: 60),
                       ),
-                      SizedBox(height: 25),
+                      SizedBox(height: 10),
                       _separatorOr(),
                       SizedBox(height: 10),
                       _textIAlreadyHaveAccount(context)
@@ -224,7 +224,7 @@ class RegisterContent extends StatelessWidget {
 
   Widget _imageBanner() {
     return Container(
-      margin: EdgeInsets.only(top: 60),
+      margin: EdgeInsets.only(top: 50),
       alignment: Alignment.center,
       child: Image.asset(
         'assets/img/trip.png',

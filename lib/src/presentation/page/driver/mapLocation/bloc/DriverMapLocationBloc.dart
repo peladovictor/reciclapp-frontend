@@ -37,13 +37,39 @@ class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocati
     });
 
     on<AddMyPositionMarker>((event, emit) async {
-      BitmapDescriptor descriptor =
-          await geolocatorUseCases.createMarker.run('assets/img/car_pin.png');
-      Marker marker = geolocatorUseCases.getMarker
-          .run('my_location', event.lat, event.lng, 'Mi posicion', '', descriptor);
-      emit(state.copyWith(
-        markers: {marker.markerId: marker},
-      ));
+      print('[DRIVER] AddMyPositionMarker -> lat: ${event.lat}, lng: ${event.lng}');
+
+      BitmapDescriptor descriptor;
+      try {
+        // Intentamos usar tu pin personalizado
+        descriptor = await geolocatorUseCases.createMarker.run('assets/img/car_pin2.png');
+      } catch (e) {
+        // Si en iOS pasa algo con el asset, al menos usamos un marker por defecto
+        print('[DRIVER] Error creando descriptor car_pin2.png: $e');
+        descriptor = BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueAzure,
+        );
+      }
+
+      // Id único del marker del driver
+      final markerId = const MarkerId('my_location');
+
+      final marker = geolocatorUseCases.getMarker.run(
+        'my_location',
+        event.lat,
+        event.lng,
+        'Mi posición',
+        '',
+        descriptor,
+      );
+
+      // Clonamos el mapa actual de markers y actualizamos solo el del driver
+      final updatedMarkers = Map<MarkerId, Marker>.from(state.markers);
+      updatedMarkers[markerId] = marker;
+
+      emit(state.copyWith(markers: updatedMarkers));
+
+      print('[DRIVER] markers ahora: ${updatedMarkers.length}');
     });
 
     on<ChangeMapCameraPosition>((event, emit) async {

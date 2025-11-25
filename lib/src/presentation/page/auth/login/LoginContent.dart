@@ -33,8 +33,7 @@ class LoginContent extends StatelessWidget {
             padding: EdgeInsets.only(left: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, //vertical
-              mainAxisAlignment:
-                  MainAxisAlignment.center, //horizontal
+              mainAxisAlignment: MainAxisAlignment.center, //horizontal
               children: [
                 _textLoginRotate(),
                 SizedBox(height: 100),
@@ -48,7 +47,7 @@ class LoginContent extends StatelessWidget {
             //height: MediaQuery.of(context).size.height * 0.96,
             //width: MediaQuery.of(context).size.width * 0.8,
             //botom opcion 2
-            margin: EdgeInsets.only(left: 60, right: 0, bottom: 30),
+            margin: EdgeInsets.only(left: 60, right: 0, bottom: 10),
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -58,8 +57,7 @@ class LoginContent extends StatelessWidget {
                       Color.fromARGB(255, 0, 198, 237)
                     ]),
                 borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(45),
-                    bottomLeft: Radius.circular(45))),
+                    topLeft: Radius.circular(45), bottomLeft: Radius.circular(45))),
             child: Container(
               height: MediaQuery.of(context).size.height,
               margin: EdgeInsets.only(left: 25, right: 25),
@@ -76,8 +74,9 @@ class LoginContent extends StatelessWidget {
                     _textLogin(),
                     DefaultTextField(
                         onChanged: (text) {
-                          context.read<LoginBloc>().add(EmailChanged(
-                              email: BlocFormItem(value: text)));
+                          context
+                              .read<LoginBloc>()
+                              .add(EmailChanged(email: BlocFormItem(value: text)));
                         },
                         validator: (value) {
                           return state.email.error;
@@ -86,20 +85,18 @@ class LoginContent extends StatelessWidget {
                         icon: Icons.email_outlined),
                     DefaultTextField(
                       onChanged: (text) {
-                        context.read<LoginBloc>().add(PasswordChanged(
-                            password: BlocFormItem(value: text)));
+                        context
+                            .read<LoginBloc>()
+                            .add(PasswordChanged(password: BlocFormItem(value: text)));
                       },
                       validator: (value) {
                         return state.password.error;
                       },
                       text: 'Password',
                       icon: Icons.lock_outline,
-                      margin: EdgeInsets.only(
-                          top: 15, left: 20, right: 20),
+                      margin: EdgeInsets.only(top: 15, left: 20, right: 20),
                     ),
-                    SizedBox(
-                        height:
-                            MediaQuery.of(context).size.height * 0.1),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                     //Spacer(),
                     DefaultButton(
                       text: 'LOGIN',
@@ -146,10 +143,8 @@ class LoginContent extends StatelessWidget {
           },
           child: Text(
             'Registrate',
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 17),
+            style:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
           ),
         ),
       ],
@@ -183,10 +178,7 @@ class LoginContent extends StatelessWidget {
   Widget _textLogin() {
     return Text(
       'Log in',
-      style: TextStyle(
-          fontSize: 25,
-          color: Colors.white,
-          fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
 
@@ -204,10 +196,7 @@ class LoginContent extends StatelessWidget {
   Widget _textWelcomeBack(String text) {
     return Text(
       text,
-      style: TextStyle(
-          fontSize: 30,
-          color: Colors.white,
-          fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
 
@@ -231,10 +220,7 @@ class LoginContent extends StatelessWidget {
       quarterTurns: 1,
       child: Text(
         'Login',
-        style: TextStyle(
-            color: Colors.white,
-            fontSize: 28,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
       ),
     );
   }

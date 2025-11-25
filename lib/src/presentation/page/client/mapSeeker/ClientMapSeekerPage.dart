@@ -17,7 +17,7 @@ class ClientMapSeekerPage extends StatefulWidget {
 
 class _ClientMapSeekerPageState extends State<ClientMapSeekerPage> {
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(-33.402752, -70.6499649),
     zoom: 14.4746,
   );
 
@@ -26,11 +26,10 @@ class _ClientMapSeekerPageState extends State<ClientMapSeekerPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timestamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<ClientMapSeekerBloc>().add(ClientMapSeekerInitEvent());
-      context.read<ClientMapSeekerBloc>().add(FindPosition());
+      context.read<ClientMapSeekerBloc>().add(ConnectSocketIO());
       context.read<ClientMapSeekerBloc>().add(FindPosition());
     });
   }
