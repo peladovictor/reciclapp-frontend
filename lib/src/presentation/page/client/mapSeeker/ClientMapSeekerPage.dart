@@ -8,6 +8,14 @@ import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/blo
 import 'package:flutter_application_1/src/presentation/page/client/mapSeeker/bloc/ClientMapSeekerState.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 
+// Dirección fija de la planta de reciclaje
+const String kRecyclingPlantAddress =
+    'Planta de Reciclaje Recoleta, Av. Einstein 523, Recoleta';
+
+// Coordenadas fijas de la planta (para el Bloc)
+const double kRecyclingPlantLat = -33.4028356;
+const double kRecyclingPlantLng = -70.6470629;
+
 class ClientMapSeekerPage extends StatefulWidget {
   const ClientMapSeekerPage({super.key});
 
@@ -68,7 +76,7 @@ class _ClientMapSeekerPageState extends State<ClientMapSeekerPage> {
                 },
               ),
               Container(
-                height: 130,
+                height: 170,
                 margin: EdgeInsets.only(left: 30, right: 30, top: 10),
                 child: Card(
                   surfaceTintColor: Colors.white,
@@ -99,7 +107,49 @@ class _ClientMapSeekerPageState extends State<ClientMapSeekerPage> {
                                 lat: double.parse(prediction.lat!),
                                 lng: double.parse(prediction.lng!),
                                 destinationDescription: prediction.description ?? ''));
-                      })
+                      }),
+                      // 👇 NUEVO BOTÓN: usar planta de reciclaje
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            // 1) Autocompletar el campo "Dejar en"
+                            destinationController.text = kRecyclingPlantAddress;
+
+                            // 2) Avisar al Bloc como si hubieras elegido una dirección del buscador
+                            context.read<ClientMapSeekerBloc>().add(
+                                  OnAutoCompletedDestinationSelected(
+                                    lat: kRecyclingPlantLat,
+                                    lng: kRecyclingPlantLng,
+                                    destinationDescription: kRecyclingPlantAddress,
+                                  ),
+                                );
+                          },
+                          icon: const Icon(
+                            Icons.recycling,
+                            size: 18,
+                          ),
+                          label: const Text(
+                            'Usar planta de reciclaje',
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF1AB25B), // verde
+                            foregroundColor: Colors.white, // texto + icono blanco
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            minimumSize: const Size(0, 0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            textStyle: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
