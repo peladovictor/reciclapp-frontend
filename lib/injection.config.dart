@@ -13,11 +13,15 @@ import 'package:flutter_application_1/src/data/dataSource/local/SharefPref.dart'
     as _i1047;
 import 'package:flutter_application_1/src/data/dataSource/remote/services/AuthService.dart'
     as _i301;
+import 'package:flutter_application_1/src/data/dataSource/remote/services/DriversPositionService.dart'
+    as _i214;
 import 'package:flutter_application_1/src/data/dataSource/remote/services/UsersService.dart'
     as _i994;
 import 'package:flutter_application_1/src/di/AppModule.dart' as _i903;
 import 'package:flutter_application_1/src/domain/repository/AuthRepository.dart'
     as _i200;
+import 'package:flutter_application_1/src/domain/repository/DriverPositionRepository.dart'
+    as _i99;
 import 'package:flutter_application_1/src/domain/repository/GeolocatorRespository.dart'
     as _i971;
 import 'package:flutter_application_1/src/domain/repository/SocketRepository.dart'
@@ -26,6 +30,8 @@ import 'package:flutter_application_1/src/domain/repository/UsersRepository.dart
     as _i860;
 import 'package:flutter_application_1/src/domain/useCases/auth/AuthUseCase.dart'
     as _i62;
+import 'package:flutter_application_1/src/domain/useCases/driver-position/DriversPositionUseCase.dart'
+    as _i590;
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart'
     as _i936;
 import 'package:flutter_application_1/src/domain/useCases/socket/SocketUseCases.dart'
@@ -53,15 +59,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factoryAsync<String>(() => appModule.token);
     gh.factory<_i301.AuthService>(() => appModule.authService);
     gh.factory<_i994.UsersService>(() => appModule.usersService);
+    gh.factory<_i214.DriversPositionService>(
+        () => appModule.driversPositionService);
     gh.factory<_i200.AuthRepository>(() => appModule.authRepository);
     gh.factory<_i860.UsersRepository>(() => appModule.usersRepository);
     gh.factory<_i735.SocketRepository>(() => appModule.socketRepository);
     gh.factory<_i971.GeolocatorRespository>(
         () => appModule.geolocatorRespository);
+    gh.factory<_i99.DriverPositionRepository>(
+        () => appModule.driversPositionRepository);
     gh.factory<_i62.AuthUseCases>(() => appModule.authUseCases);
     gh.factory<_i548.UsersUseCases>(() => appModule.usersUseCases);
     gh.factory<_i936.GeolocatorUseCases>(() => appModule.geolocatorUseCases);
     gh.factory<_i329.SocketUseCases>(() => appModule.socketUseCases);
+    gh.factory<_i590.DriversPositionUseCase>(
+        () => appModule.driverPositionUseCase);
     return this;
   }
 }

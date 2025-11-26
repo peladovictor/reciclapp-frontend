@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/src/domain/useCases/auth/AuthUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/driver-position/DriversPositionUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
 import 'package:flutter_application_1/src/domain/useCases/socket/SocketUseCases.dart';
 import 'package:flutter_application_1/src/domain/useCases/users/UsersUseCases.dart';
@@ -43,8 +44,8 @@ List<BlocProvider> blocProvider = [
       create: (context) => ClientMapBookingInfoBloc(locator<GeolocatorUseCases>())),
   BlocProvider<DriverMapLocationBloc>(
       create: (context) => DriverMapLocationBloc(
-            locator<GeolocatorUseCases>(),
-            locator<SocketUseCases>(),
-            locator<AuthUseCases>(),
-          )),
+          locator<GeolocatorUseCases>(),
+          locator<SocketUseCases>(),
+          locator<AuthUseCases>(),
+          locator<DriversPositionUseCase>())),
 ];

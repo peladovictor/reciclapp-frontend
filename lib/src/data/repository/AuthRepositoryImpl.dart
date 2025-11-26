@@ -13,8 +13,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.authService, this.sharefPref);
 
   @override
-  Future<Resource<AuthResponse>> login(
-      String email, String password) {
+  Future<Resource<AuthResponse>> login(String email, String password) {
     return authService.login(email, password);
   }
 

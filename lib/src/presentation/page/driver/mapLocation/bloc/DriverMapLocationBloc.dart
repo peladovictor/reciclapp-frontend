@@ -1,4 +1,7 @@
 import 'dart:async';
+
+import 'package:flutter_application_1/src/domain/models/DriverPosition.dart';
+import 'package:flutter_application_1/src/domain/useCases/driver-position/DriversPositionUseCase.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter_application_1/src/domain/models/AuthResponse.dart';
 import 'package:flutter_application_1/src/domain/useCases/auth/AuthUseCase.dart';
@@ -11,48 +14,78 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocationState> {
-  SocketUseCases socketUseCases;
-  GeolocatorUseCases geolocatorUseCases;
-  AuthUseCases authUseCases;
-  StreamSubscription? positionSubscription;
+  final SocketUseCases socketUseCases;
+  final GeolocatorUseCases geolocatorUseCases;
+  final AuthUseCases authUseCases;
+  final DriversPositionUseCase driversPositionUseCase;
+  StreamSubscription<Position>? positionSubscription;
 
-  DriverMapLocationBloc(this.geolocatorUseCases, this.socketUseCases, this.authUseCases)
-      : super(DriverMapLocationState()) {
-    on<DriverMapLocationInitEvent>((event, emit) {
-      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
-      emit(state.copyWith(controller: controller));
+  DriverMapLocationBloc(
+    this.geolocatorUseCases,
+    this.socketUseCases,
+    this.authUseCases,
+    this.driversPositionUseCase,
+  ) : super(DriverMapLocationState()) {
+    // 1) Init: guardar idDriver y controller del mapa
+    on<DriverMapLocationInitEvent>((event, emit) async {
+      final controller = Completer<GoogleMapController>();
+      final AuthResponse authResponse = await authUseCases.getUserSession.run();
+
+      emit(
+        state.copyWith(
+          controller: controller,
+          idDriver: authResponse.user.id,
+        ),
+      );
     });
 
+    // 2) Encontrar posición inicial y enganchar stream de ubicación
     on<FindPosition>((event, emit) async {
-      Position position = await geolocatorUseCases.findPosition.run();
+      final Position position = await geolocatorUseCases.findPosition.run();
+
       add(ChangeMapCameraPosition(lat: position.latitude, lng: position.longitude));
       add(AddMyPositionMarker(lat: position.latitude, lng: position.longitude));
-      Stream<Position> positionStream = geolocatorUseCases.getPositionStream.run();
+
+      // Cancelar suscripción anterior si existe
+      positionSubscription?.cancel();
+
+      final Stream<Position> positionStream = geolocatorUseCases.getPositionStream.run();
+
       positionSubscription = positionStream.listen((Position position) {
+        // Actualizamos UI y socket
         add(UpdateLocation(position: position));
+
+        // Construimos el objeto para DB
+        final driverPosition = DriverPosition(
+          idDriver: state.idDriver!,
+          lat: position.latitude,
+          lng: position.longitude,
+        );
+
+        print('[BLOC] SaveLocationData stream -> ${driverPosition.toJson()}');
+
+        // Disparamos evento para guardar en backend
+        add(SaveLocationData(driverPosition: driverPosition));
       });
-      emit(state.copyWith(
-        position: position,
-      ));
+
+      emit(state.copyWith(position: position));
     });
 
+    // 3) Agregar/actualizar marker del driver en el mapa
     on<AddMyPositionMarker>((event, emit) async {
       print('[DRIVER] AddMyPositionMarker -> lat: ${event.lat}, lng: ${event.lng}');
 
       BitmapDescriptor descriptor;
       try {
-        // Intentamos usar tu pin personalizado
         descriptor = await geolocatorUseCases.createMarker.run('assets/img/car_pin2.png');
       } catch (e) {
-        // Si en iOS pasa algo con el asset, al menos usamos un marker por defecto
         print('[DRIVER] Error creando descriptor car_pin2.png: $e');
         descriptor = BitmapDescriptor.defaultMarkerWithHue(
           BitmapDescriptor.hueAzure,
         );
       }
 
-      // Id único del marker del driver
-      final markerId = const MarkerId('my_location');
+      const markerId = MarkerId('my_location');
 
       final marker = geolocatorUseCases.getMarker.run(
         'my_location',
@@ -63,7 +96,6 @@ class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocati
         descriptor,
       );
 
-      // Clonamos el mapa actual de markers y actualizamos solo el del driver
       final updatedMarkers = Map<MarkerId, Marker>.from(state.markers);
       updatedMarkers[markerId] = marker;
 
@@ -72,10 +104,10 @@ class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocati
       print('[DRIVER] markers ahora: ${updatedMarkers.length}');
     });
 
+    // 4) Mover la cámara del mapa
     on<ChangeMapCameraPosition>((event, emit) async {
       final mapController = state.controller;
 
-      // Si el controller todavía es null o no está listo, salimos sin hacer nada
       if (mapController == null || !mapController.isCompleted) {
         return;
       }
@@ -92,36 +124,59 @@ class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocati
       );
     });
 
+    // 5) UpdateLocation: actualiza marker, cámara, estado y socket
     on<UpdateLocation>((event, emit) async {
       add(AddMyPositionMarker(
           lat: event.position.latitude, lng: event.position.longitude));
       add(ChangeMapCameraPosition(
           lat: event.position.latitude, lng: event.position.longitude));
+
       emit(state.copyWith(position: event.position));
+
       add(EmitDriverPositionSocketIO());
     });
 
+    // 6) StopLocation: detener stream y borrar registro en DB
     on<StopLocation>((event, emit) {
       positionSubscription?.cancel();
+      positionSubscription = null;
+
+      print('[BLOC] StopLocation -> idDriver=${state.idDriver}');
+      add(DeleteLocationData(idDriver: state.idDriver!));
     });
 
+    // 7) Conectar / desconectar socket
     on<ConnectSocketIO>((event, emit) {
-      Socket socket = socketUseCases.connect.run();
+      final Socket socket = socketUseCases.connect.run();
       emit(state.copyWith(socket: socket));
     });
 
     on<DisconnectSocketIO>((event, emit) {
-      Socket socket = socketUseCases.disconnect.run();
+      final Socket socket = socketUseCases.disconnect.run();
       emit(state.copyWith(socket: socket));
     });
 
+    // 8) Emitir posición por socket (para el cliente)
     on<EmitDriverPositionSocketIO>((event, emit) async {
-      AuthResponse authResponse = await authUseCases.getUserSession.run();
+      if (state.position == null) return;
+
       state.socket?.emit('change_driver_position', {
-        'id': authResponse.user.id,
+        'id': state.idDriver,
         'lat': state.position!.latitude,
         'lng': state.position!.longitude,
       });
+    });
+
+    // 9) Guardar posición en backend (usa use case)
+    on<SaveLocationData>((event, emit) async {
+      print('[BLOC] SaveLocationData handler -> ${event.driverPosition.toJson()}');
+      await driversPositionUseCase.createDriverPosition.run(event.driverPosition);
+    });
+
+    // 🔟 Eliminar posición en backend al detener
+    on<DeleteLocationData>((event, emit) async {
+      print('[BLOC] DeleteLocationData handler -> idDriver=${event.idDriver}');
+      await driversPositionUseCase.deleteDriverPosition.run(event.idDriver);
     });
   }
 }

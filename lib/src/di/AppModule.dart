@@ -1,13 +1,16 @@
 import 'package:flutter_application_1/src/data/api/ApiConfig.dart';
 import 'package:flutter_application_1/src/data/dataSource/local/SharefPref.dart';
 import 'package:flutter_application_1/src/data/dataSource/remote/services/AuthService.dart';
+import 'package:flutter_application_1/src/data/dataSource/remote/services/DriversPositionService.dart';
 import 'package:flutter_application_1/src/data/dataSource/remote/services/UsersService.dart';
 import 'package:flutter_application_1/src/data/repository/AuthRepositoryImpl.dart';
+import 'package:flutter_application_1/src/data/repository/DriverPositionRepositoryImpl.dart';
 import 'package:flutter_application_1/src/data/repository/GeolocatorRepositoryImpl.dart';
 import 'package:flutter_application_1/src/data/repository/SocketRepositoryImpl.dart';
 import 'package:flutter_application_1/src/data/repository/UsersRepositoryImpl.dart';
 import 'package:flutter_application_1/src/domain/models/AuthResponse.dart';
 import 'package:flutter_application_1/src/domain/repository/AuthRepository.dart';
+import 'package:flutter_application_1/src/domain/repository/DriverPositionRepository.dart';
 import 'package:flutter_application_1/src/domain/repository/GeolocatorRespository.dart';
 import 'package:flutter_application_1/src/domain/repository/SocketRepository.dart';
 import 'package:flutter_application_1/src/domain/repository/UsersRepository.dart';
@@ -17,6 +20,9 @@ import 'package:flutter_application_1/src/domain/useCases/auth/LoginUseCase.dart
 import 'package:flutter_application_1/src/domain/useCases/auth/LogoutUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/auth/RegisterUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/auth/SaveUserSessionUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/driver-position/CreateDriverPositionUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/driver-position/DeleteDriverPositionUseCase.dart';
+import 'package:flutter_application_1/src/domain/useCases/driver-position/DriversPositionUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/CreateMarkerUseCase.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GeolocatorUseCases.dart';
 import 'package:flutter_application_1/src/domain/useCases/geolocator/GetMarkerUseCase.dart';
@@ -66,6 +72,9 @@ abstract class AppModule {
   UsersService get usersService => UsersService(token);
 
   @injectable
+  DriversPositionService get driversPositionService => DriversPositionService();
+
+  @injectable
   AuthRepository get authRepository => AuthRepositoryImpl(authService, sharefPref);
 
   @injectable
@@ -76,6 +85,10 @@ abstract class AppModule {
 
   @injectable
   GeolocatorRespository get geolocatorRespository => GeolocatorRepositoryImpl();
+
+  @injectable
+  DriverPositionRepository get driversPositionRepository =>
+      DriverPositionRepositoryImpl(driversPositionService);
 
   @injectable
   AuthUseCases get authUseCases => AuthUseCases(
@@ -104,5 +117,11 @@ abstract class AppModule {
   SocketUseCases get socketUseCases => SocketUseCases(
         connect: ConnectSocketUseCase(socketRepository),
         disconnect: DisconnectSocketUseCase(socketRepository),
+      );
+
+  @injectable
+  DriversPositionUseCase get driverPositionUseCase => DriversPositionUseCase(
+        CreateDriverPositionUseCase(driversPositionRepository),
+        DeleteDriverPositionUseCase(driversPositionRepository),
       );
 }

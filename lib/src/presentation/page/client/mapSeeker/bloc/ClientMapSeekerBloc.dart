@@ -177,7 +177,7 @@ class ClientMapSeekerBloc extends Bloc<ClientMapSeekerEvent, ClientMapSeekerStat
         event.idSocket, // MarkerId = id del socket del driver
         event.lat,
         event.lng,
-        'Conductor disponible',
+        'Recolector disponible',
         '',
         descriptor,
       );
